@@ -12,18 +12,18 @@ module DevPanel
     def debug_html_response
       r = (Stats.hidden) ? '$("#basementContainer").toggle()' : '';
 
-      '<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script><div id="stupidBasement"></div>
+      '<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script><div id="DevPanel"></div>
         <script type="text/javascript">$.ajax({
-          url: "/__StupidBasement/main",
+          url: "/__DevPanel/main",
           success: function(response) {
-            $("#stupidBasement").html(response);' + r +
+            $("#DevPanel").html(response);' + r +
             '
             $("#basementHider").on("click", function(s) {
               $("#basementContainer").toggle();
-              $.get("/__StupidBasement/set_options?hidden=" + $("#basementContainer").is(":visible"));
+              $.get("/__DevPanel/set_options?hidden=" + $("#basementContainer").is(":visible"));
             });
             $("#basementWindow").draggable({stop: function() {
-              $.get("/__StupidBasement/set_options?x=" + $("#basementWindow").position().top + "&left=" + $("#basementWindow").position().left);
+              $.get("/__DevPanel/set_options?x=" + $("#basementWindow").position().top + "&left=" + $("#basementWindow").position().left);
             }});
           }
         });

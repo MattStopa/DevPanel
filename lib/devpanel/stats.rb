@@ -15,16 +15,19 @@ module DevPanel
     end
 
     def self.x(val = @@x)
+      self.log("x = #{@@x}")
       return @@x if val.class != Fixnum && val.empty?
       @@x = val || 0
     end
 
     def self.y(val = @@y)
+       self.log("y = #{@@y}")
       return @@y if val.class != Fixnum && val.empty?
       @@y = val
     end
 
     def self.hidden(val = @@hidden)
+      self.log("val = #{val}")
       @@hidden ||= false
       @@hidden ||= val
     end
