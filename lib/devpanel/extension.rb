@@ -10,20 +10,20 @@ module DevPanel
     end
 
     def debug_html_response
-      r = (Stats.hidden) ? '$("#basementContainer").toggle()' : '';
+      hide_container = (Stats.hidden) ? '$("#devPanelContainer").toggle()' : '';
 
       '<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script><div id="DevPanel"></div>
         <script type="text/javascript">$.ajax({
           url: "/__DevPanel/main",
           success: function(response) {
-            $("#DevPanel").html(response);' + r +
+            $("#DevPanel").html(response);' + hide_container +
             '
-            $("#basementHider").on("click", function(s) {
-              $("#basementContainer").toggle();
-              $.get("/__DevPanel/set_options?hidden=" + $("#basementContainer").is(":visible"));
+            $("#devPanelHider").on("click", function(s) {
+              $("#devPanelContainer").toggle();
+              $.get("/__DevPanel/set_options?hidden=" + $("#devPanelContainer").is(":visible"));
             });
-            $("#basementWindow").draggable({stop: function() {
-              $.get("/__DevPanel/set_options?x=" + $("#basementWindow").position().top + "&left=" + $("#basementWindow").position().left);
+            $("#devPanelWindow").draggable({stop: function() {
+              $.get("/__DevPanel/set_options?x=" + $("#devPanelWindow").position().top + "&left=" + $("#devPanelWindow").position().left);
             }});
           }
         });

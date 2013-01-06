@@ -29,7 +29,7 @@ module DevPanel
 
     def css
       "<style>
-        #basementWindow {
+        #devPanelWindow {
           border-radius: 3px;
           margin-bottom: 2px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.03), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.04);
@@ -37,7 +37,7 @@ module DevPanel
           border: 2px solid #000;
         }
 
-        #basementHider {
+        #devPanelHider {
           background: #F1F1F1;
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
           overflow: hidden;
@@ -48,32 +48,32 @@ module DevPanel
           border-top-right-radius: 2px;
         }
 
-        #basementContainer {
+        #devPanelContainer {
           background-color: #fff;
           box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
         }
 
-        #basementContainer td {
+        #devPanelContainer td {
           color: #000;
           font-size: 9px;
           font-weight: normal;
           padding: 8px;
         }
 
-        #basementContainer tr {
+        #devPanelContainer tr {
           background-color: #FACC9B;;
         }
 
-        #basementContainer .alt {
+        #devPanelContainer .alt {
           background-color: #FFF;;
         }
       </style>"
     end
 
     def html_containers
-      str = '<div id="basementWindow" style="padding: 3px; color: #000; background-color: #F0F0F5; position: absolute; float: left; top: ' + Stats.y.to_s + 'px; left: ' + Stats.x.to_s + 'px;" >'
-      str += '<div id="basementHider" style="width: 150px; text-align:center; border: solid 1px #fff"><a href="#">Show/Hide Stats</a> / ' +  Stats.data[:action_controller].duration.round(0).to_s + 'ms</div>'
-      str += '<div id="basementContainer" style="width: 300px; padding: 20px">'
+      str = '<div id="devPanelWindow" style="padding: 3px; color: #000; background-color: #F0F0F5; position: absolute; float: left; top: ' + Stats.y.to_s + 'px; left: ' + Stats.x.to_s + 'px;" >'
+      str += '<div id="devPanelHider" style="width: 150px; text-align:center; border: solid 1px #fff"><a href="#">Show/Hide Stats</a> / ' +  Stats.data[:action_controller].duration.round(0).to_s + 'ms</div>'
+      str += '<div id="devPanelContainer" style="width: 300px; padding: 20px">'
     end
 
     def html_table
