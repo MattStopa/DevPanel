@@ -2,9 +2,16 @@ module DevPanel
   class Stats
 
     @@data ||= { log: "" }
-    @@hidden = false
-    @@x = 0
-    @@y = 0
+    @@visible = "false"
+    @@left = 0
+    @@top = 0
+
+    def self.set_by_params(params)
+      ['visible', 'left', 'top'].each do |str|
+        Stats.send(str, params[str]) if params[str].present?
+      end
+      Stats.log(" ")
+    end
 
     def self.data
       @@data ||= { log: "" }
@@ -14,30 +21,28 @@ module DevPanel
       @@data = {}
     end
 
-    def self.x(val = @@x)
-      self.log("x = #{@@x}")
-      return @@x if val.class != Fixnum && val.empty?
-      @@x = val || 0
+    def self.left(val = @@left)
+      return @@left if val.class != Fixnum && val.empty?
+      @@left = val || 0
     end
 
-    def self.y(val = @@y)
-       self.log("y = #{@@y}")
-      return @@y if val.class != Fixnum && val.empty?
-      @@y = val
+    def self.top(val = @@top)
+      return @@top if val.class != Fixnum && val.empty?
+      @@top = val
     end
 
-    def self.hidden(val = @@hidden)
-      self.log("val = #{val}")
-      @@hidden ||= false
-      @@hidden ||= val
+    def self.visible(val = @@visible)
+      @@visible = val
+    end
+
+    def self.show?
+      @@visible == "true"
     end
 
     def self.log(log)
       @@data[:log] ||= ""
       @@data[:log] += CGI::escapeHTML("#{log}")
-      @@data[:log] += "<br>"
-      @@data[:log] += CGI::escapeHTML("------")
-      @@data[:log] += "<br>"
+      @@data[:log] += "<br>--------------<br>"
     end
   end
 end
