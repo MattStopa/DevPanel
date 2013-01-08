@@ -7,7 +7,7 @@ debugging info. It allows you to quickly pin point slow pages or inefficencies w
 ### Features
 * Shows render times for the Controller, View and Model as well as the overall time spent on the current page load.
 * Shows which controller was called and which controller action so you can easily find out where the code for the current page is.
-* Shows how many views were rendered to help identify inefficines.
+* Shows how many views were rendered to help identify inefficiencies.
 * Shows the response code returned as well as the HTTP request method.
 * Shows params so you can see what was passed to your controller.
 * Provides a logging facilty so you don't have to search your log files. Just say `DevPanel::Stats.log("some val")` and it will display
