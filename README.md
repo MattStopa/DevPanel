@@ -12,7 +12,7 @@ debugging info. It allows you to quickly pin point slow pages or inefficencies w
 * Shows params so you can see what was passed to your controller.
 * Provides a logging facilty so you don't have to search your log files. Just say `DevPanel::Stats.log("some val")` and it will display
   in the panel. No need to raise an exception anymore. 
-* Allows you to drag and drop the panel anywhere on the page and it will save that location between requests. It rests to the top left
+* Allows you to drag and drop the panel anywhere on the page and it will save that location between requests. It resets to the top left
   on server restart
 
 ![Alt text](https://raw.github.com/MattStopa/DevPanel/master/sample.jpg?login=MattStopa&token=c291d1679b2ec07ac4a4ff112079a3aa)
