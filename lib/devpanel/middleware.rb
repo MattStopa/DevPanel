@@ -10,7 +10,7 @@ module DevPanel
       elsif env["REQUEST_URI"] =~ /__DevPanel\/set_options/
          params = Rack::Utils.parse_query(env['QUERY_STRING'], "&")
          Stats.set_by_params(params)
-        [200, { "Content-Type" => "text/plain; charset=utf-8" }, ["#{Stats.hidden} #{Stats.left} #{Stats.top}"]]
+        [200, { "Content-Type" => "text/plain; charset=utf-8" }, ["#{Stats.show?} #{Stats.left} #{Stats.top}"]]
       else
         @app.call(env)
       end
