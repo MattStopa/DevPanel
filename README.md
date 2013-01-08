@@ -25,3 +25,7 @@ If you wish to move it's location just drag it anywhere you'd like, it will keep
       gem "dev_panel"
     end
     
+### Notes
+
+Be aware that DevPanel loads JQuery and JQuery UI at the bottom of your page. I'm going to make this an optional feature soon
+but for now it's hard coded in there. Expect a new version to fix this within a few days. 
