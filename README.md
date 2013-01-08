@@ -1,9 +1,8 @@
 DevPanel
 ====
 
-DevPanel is a panel that displays itself in the browser to provide useful information about the page load times and other
-debugging information for Rails 3 Applications. It allows you to quickly pin point slow pages or inefficencies within
-your web app without ever having to scroll through logs.
+DevPanel is time saving tool for Rails Development that displays itself in the browser as a panel to provide useful information about the page load times and other
+debugging info. It allows you to quickly pin point slow pages or inefficencies within your web app without ever having to scroll through logs.
 
 ### Features
 * Shows render times for the Controller, View and Model as well as the overall time spent on the current page load.
@@ -11,4 +10,18 @@ your web app without ever having to scroll through logs.
 * Shows how many views were rendered to help identify inefficines.
 * Shows the response code returned as well as the HTTP request method.
 * Shows params so you can see what was passed to your controller.
-* Provides a logging facilty so you don't have to search your log files. Just say 
+* Provides a logging facilty so you don't have to search your log files. Just say `DevPanel::Stats.log("some val")` and it will display
+  in the panel. No need to raise an exception anymore. 
+* Allows you to drag and drop the panel anywhere on the page and it will save that location between requests. It rests to the top left
+  on server restart
+
+
+### Installation
+
+Just add the following to your Gemfile and restart your app server. DevPanel will display in the upper left and corner. 
+If you wish to move it's location just drag it anywhere you'd like, it will keep that locations between requests.
+    
+    group :development do
+      gem "dev_panel"
+    end
+    
