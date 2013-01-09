@@ -5,7 +5,7 @@ DevPanel is time saving tool for Rails Development that displays itself in the b
 debugging info. It allows you to quickly pin point slow pages or inefficencies within your web app without ever having to scroll through logs.
 
 ### Features
-* Shows render times for the Controller, View and Model as well as the overall time spent on the current page load.
+* Shows render times for the Controller, View and Model (Model is coming soon) as well as the overall time spent on the current page load.
 * Shows which controller was called and which controller action so you can easily find out where the code for the current page is.
 * Shows how many views were rendered to help identify inefficiencies.
 * Shows the response code returned as well as the HTTP request method.
