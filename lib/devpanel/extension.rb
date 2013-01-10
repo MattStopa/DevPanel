@@ -2,7 +2,7 @@ module DevPanel
   module Panel
 
     def self.included(base)
-      base.after_filter :dev_panel_output
+      base.after_filter :dev_panel_output, :if => lambda { request.format.to_s == "text/html" && !(!!request.xhr?) }
     end
 
     def dev_panel_output
