@@ -37,11 +37,19 @@ module DevPanel
     end
 
     def jquery_cdn
-      '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'
+      begin
+        return '' if Rails.application.config.dev_panel_exclude_jquery == true
+      rescue
+        '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'
+      end
     end
 
     def jquery_ui_cdn
-      '<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>'
+      begin
+        return '' if Rails.application.config.dev_panel_exclude_jquery_ui == true
+      rescue
+        '<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>'
+      end
     end
   end
 end
