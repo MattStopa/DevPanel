@@ -41,8 +41,17 @@ module DevPanel
 
     def self.log(log)
       @@data[:log] ||= ""
+      @@data[:log] += "<div style='border-bottom: 1px black solid'>"
       @@data[:log] += CGI::escapeHTML("#{log}")
-      @@data[:log] += "<br>--------------<br>"
+      @@data[:log] += "</div>"
     end
+
+    def self.time
+      start = Time.now
+      yield
+      time_spent = ((Time.now - start)*1000).round(2)
+      self.log("Time Elapsed: #{time_spent}ms")
+    end
+
   end
 end
