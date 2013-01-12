@@ -1,4 +1,4 @@
-dev_panel
+Dev Panel
 ====
 
 dev_panel is time saving tool for Rails Development that displays itself in the browser as a panel to provide useful information about the page load times and other
