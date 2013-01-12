@@ -32,7 +32,7 @@ If you wish to move it's location just drag it anywhere you'd like, it will keep
 One of dev_panel's most powerful features is to provide easy logging facilities that don't require using the Rails console, just edit your code and have debug info
 appear in the browser. There are two primary features when it comes to logging with dev_panel.
 
-#### Time Based Logging
+##### Time Based Logging
 
 Want to profile some code and see how long it takes to execute? Just wrap it in a `DevPanel::Stats.time` block and you'll see the results in the log portion of the panel.
 
@@ -42,7 +42,7 @@ Want to profile some code and see how long it takes to execute? Just wrap it in 
 
 Now if you look in the dev_panel you'll see something like `1002.34` in the log section. easy code profiling, yay!
 
-#### Log Anything
+##### Log Anything
 
 Want to output some object you are working with to the screen for a quick inspection? Use this so you don't have to put `raise`'s in your code.
 
