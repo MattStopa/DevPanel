@@ -14,22 +14,24 @@ module DevPanel
     end
 
     def ajax_call
-      '<div id="DevPanel"></div><script type="text/javascript">
-        $.ajax({
-          url: "/__DevPanel/main",
-          success: function(response) {
-            $("#DevPanel").html(response);' + hide_container +
-            '
-            $("#devPanelHider").on("click", function(s) {
-              $("#devPanelContainer").toggle();
-              $.get("/__DevPanel/set_options?visible=" + $("#devPanelContainer").is(":visible"));
-            });
-            $("#devPanelWindow").draggable({stop: function() {
-              $.get("/__DevPanel/set_options?top=" + $("#devPanelWindow").position().top + "&left=" + $("#devPanelWindow").position().left);
-            }});
-          }
-        });
-      </script>'
+      <<-html_code
+        <div id="DevPanel"></div><script type="text/javascript">
+          $.ajax({
+            url: "/__DevPanel/main",
+            success: function(response) {
+              $("#DevPanel").html(response);
+              #{hide_container}
+              $("#devPanelHider").on("click", function(s) {
+                $("#devPanelContainer").toggle();
+                $.get("/__DevPanel/set_options?visible=" + $("#devPanelContainer").is(":visible"));
+              });
+              $("#devPanelWindow").draggable({stop: function() {
+                $.get("/__DevPanel/set_options?top=" + $("#devPanelWindow").position().top + "&left=" + $("#devPanelWindow").position().left);
+              }});
+            }
+          });
+        </script>
+      html_code
     end
 
     def hide_container
