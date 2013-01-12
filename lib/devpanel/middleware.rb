@@ -89,24 +89,24 @@ module DevPanel
 
     def html_table
       controller_time = (Stats.data[:action_controller].duration - stats(:view_runtime))
-      table_rows = [
+      table_rows = rowify([
         first_td("Total Time:")        + td("#{Stats.data[:action_controller].duration.round(2).to_s}ms"),
         first_td("Controller Time:")   + td("#{controller_time.round(2).to_s}ms"),
         first_td("View Time:")         + td("#{stats(:view_runtime).round(2).to_s}ms"),
-        first_td("Partials Rendered:") + td("#{Stats.data[:partial_count] || 0}"),
-        first_td("Response Code:")     + td("#{stats(:status).to_s}"),
+        first_td("Partials Rendered:") + td(Stats.data[:partial_count] || 0),
+        first_td("Response Code:")     + td(stats(:status)),
         first_td("Controller:")        + td(stats(:controller)),
         first_td("Action:")            + td(stats(:action)),
         first_td("Method:")            + td(stats(:method)),
         first_td("Params:")            + td(stats(:params)),
         first_td("Log:")               + td(Stats.data[:log])
-      ].inject("") { |str, data| str + tr(data) }
+      ])
 
       "<table style='width: 300px; table-layout: fixed'>#{table_rows}</table></div></div>"
     end
 
-    def tr(content = "")
-      "<tr>#{content}</tr>"
+    def tr(content = "", klass="")
+      "<tr class=#{klass}>#{content}</tr>"
     end
 
     def td(content = "")
@@ -116,5 +116,15 @@ module DevPanel
     def first_td(content = "")
       "<td class='firstColumn'>#{content}</td>"
     end
+
+    def rowify(arr)
+      result = ""
+      arr.each_with_index do |data, index|
+        result += tr(data, index.even? ? "alt" : "")
+        puts tr(data, index.even? ? "alt" : "")
+      end
+      result
+    end
+
   end
 end
