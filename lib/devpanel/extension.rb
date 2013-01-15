@@ -20,9 +20,15 @@ module DevPanel
             url: "/__DevPanel/main",
             success: function(response) {
               $("#DevPanel").html(response);
-              #{hide_container}
+              #{hide_container};
+              $("#viewTime").click(function(e) {
+                $("#partialList").css('top', e.pageY + 10 + 'px');
+                $("#partialList").css('left', e.pageX + 10 + 'px');
+                $("#partialList").toggle();
+              });
               $("#devPanelHider").on("click", function(s) {
                 $("#devPanelContainer").toggle();
+                $("#partialList").hide();
                 $.get("/__DevPanel/set_options?visible=" + $("#devPanelContainer").is(":visible"));
               });
               $("#devPanelWindow").draggable({stop: function() {

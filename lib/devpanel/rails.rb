@@ -17,6 +17,11 @@ module DevPanel
         ActiveSupport::Notifications.subscribe('render_partial.action_view') do |*args|
           Stats.data[:partial_count] ||= 0
           Stats.data[:partial_count] += 1
+          event = ActiveSupport::Notifications::Event.new(*args)
+          partial_name = event.payload[:identifier].split("app").last
+          Stats.data[:partials] ||= {}
+          Stats.data[:partials][partial_name] ||= 0
+          Stats.data[:partials][partial_name] += 1
         end
 
       end

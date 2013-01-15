@@ -71,12 +71,36 @@ module DevPanel
           #devPanelContainer .alt {
             background-color: #FFF;
           }
+
+          #viewTime {
+            font-size: 10px;
+            text-decoration: underline;
+          }
+
+          #partialList {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background: #F1F1F1;
+            border: 2px solid #000;
+            background-color: #fff;
+            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+            font-family: arial;
+            font-size: 10px;
+            overflow: hidden;
+            padding: 6px 10px;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            display: none;
+            z-index: 1;
+          }
         </style>
       css_code
     end
 
     def html_containers
       <<-html_code
+        <div id='partialList'>#{partial_list}</div>
         <div id="devPanelWindow" style="padding: 3px; color: #000; background-color: #F0F0F5; position: absolute; float: left; top: #{Stats.top.to_s}px; left: #{Stats.left.to_s}px;" >
         <div id="devPanelHider" style="width: 150px; text-align:center; border: solid 1px #fff"><a href="#">Show/Hide Stats</a> / <span style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
         <div id="devPanelContainer" style="width: 300px; padding-top: 20px">
@@ -93,7 +117,7 @@ module DevPanel
         first_td("Total Time:")        + td("#{Stats.data[:action_controller].duration.round(2).to_s}ms"),
         first_td("Controller Time:")   + td("#{controller_time.round(2).to_s}ms"),
         first_td("View Time:")         + td("#{stats(:view_runtime).round(2).to_s}ms"),
-        first_td("Partials Rendered:") + td(Stats.data[:partial_count] || 0),
+        first_td("Partials Rendered:") + td(partial_count),
         first_td("Response Code:")     + td(stats(:status)),
         first_td("Controller:")        + td(stats(:controller)),
         first_td("Action:")            + td(stats(:action)),
@@ -103,6 +127,16 @@ module DevPanel
       ])
 
       "<table style='width: 300px; table-layout: fixed'>#{table_rows}</table></div></div>"
+    end
+
+    def partial_count
+      "<div id='viewTime'>#{Stats.data[:partial_count] || 0}</div>"
+    end
+
+    def partial_list
+      str = ""
+      Stats.data[:partials].each_pair {|k,v| str << "#{k}: #{Stats.data[:partials][k]}<br>" }
+      str
     end
 
     def tr(content = "", klass="")
