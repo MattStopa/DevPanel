@@ -60,7 +60,7 @@ module DevPanel
           }
 
           #devPanelContainer tr {
-            background-color: #FACC9B;;
+            background-color: #88CAFF;
           }
 
           #devPanelContainer td.firstColumn {
@@ -126,7 +126,7 @@ module DevPanel
         first_td("Log:")               + td(Stats.data[:log])
       ])
 
-      "<table style='width: 300px; table-layout: fixed'>#{table_rows}</table></div></div>"
+      "<table style='width: 290px; margin: auto; table-layout: fixed'>#{table_rows}</table></div></div>"
     end
 
     def partial_count
