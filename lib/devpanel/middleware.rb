@@ -6,7 +6,7 @@ module DevPanel
 
     def call(env)
       if env["REQUEST_URI"] =~ /__DevPanel\/main/
-        [200, { "Content-Type" => "text/plain; charset=utf-8" }, [dev_panel_output]]
+        [200, { "Content-Type" => "text/html; charset=utf-8" }, [dev_panel_output]]
       elsif env["REQUEST_URI"] =~ /__DevPanel\/set_options/
          params = Rack::Utils.parse_query(env['QUERY_STRING'], "&")
          Stats.set_by_params(params)
@@ -17,7 +17,7 @@ module DevPanel
     end
 
    def dev_panel_output
-     css + html_containers + html_table
+     (css + html_containers + html_table).html_safe
    end
 
     def css
@@ -135,7 +135,8 @@ module DevPanel
 
     def partial_list
       str = ""
-      Stats.data[:partials].each_pair {|k,v| str << "#{k}: #{Stats.data[:partials][k]}<br>" }
+      Stats.data[:partials].each_pair {|k,v| str << "#{k}: #{Stats.data[:partials][k]}<br>" } if Stats.data[:partials].present?
+
       str
     end
 
