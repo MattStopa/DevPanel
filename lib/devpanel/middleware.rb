@@ -16,9 +16,9 @@ module DevPanel
       end
     end
 
-   def dev_panel_output
-     (css + html_containers + html_table).html_safe
-   end
+    def dev_panel_output
+      (css + html_containers + html_table).html_safe
+    end
 
     def css
       <<-css_code
@@ -156,7 +156,7 @@ module DevPanel
       result = ""
       arr.each_with_index do |data, index|
         result += tr(data, index.even? ? "alt" : "")
-        puts tr(data, index.even? ? "alt" : "")
+        tr(data, index.even? ? "alt" : "")
       end
       result
     end

@@ -57,3 +57,9 @@ Be aware that DevPanel loads JQuery and JQuery UI at the bottom of your page via
 
     config.dev_panel_exclude_jquery = true
     config.dev_panel_exclude_jquery_ui = true
+
+You may also want to set the top and left position of the panel  in case your app  has some UI element that interferes with it. To change that just add this to your
+development.rb:
+
+    config.dev_panel_initial_top = 200
+    config.dev_panel_initial_left = 50

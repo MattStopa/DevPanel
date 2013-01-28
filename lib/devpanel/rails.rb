@@ -2,6 +2,7 @@ module DevPanel
   class Railtie < Rails::Railtie
     initializer "dev_panel.configure_rails_initialization" do
       unless Rails.env.production?
+
         Rails.application.middleware.use DevPanel::Middleware
 
         ActiveSupport::Notifications.subscribe('start_processing.action_controller') do |*args|
@@ -24,6 +25,23 @@ module DevPanel
           Stats.data[:partials][partial_name] += 1
         end
 
+
+        top = nil
+        begin
+          top = Rails.application.config.dev_panel_initial_top
+        rescue
+          top = 0
+        end
+        DevPanel::Stats.top(top)
+
+        left = nil
+        begin
+          left = Rails.application.config.dev_panel_initial_left
+        rescue
+          left = 0
+        end
+        DevPanel::Stats.top(top)
+        DevPanel::Stats.left(left)
       end
     end
   end
