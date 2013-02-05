@@ -60,7 +60,7 @@ module DevPanel
           }
 
           #devPanelContainer tr {
-            background-color: #88CAFF;
+            background-color: #FACC9B;
           }
 
           #devPanelContainer td.firstColumn {
