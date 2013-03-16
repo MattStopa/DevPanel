@@ -5,9 +5,10 @@ module DevPanel
     @@visible     = "false"
     @@left        = 0
     @@top         = 0
+    @@zindex      = 1000
 
     def self.set_by_params(params)
-      ['visible', 'left', 'top'].each do |str|
+      ['visible', 'left', 'top', 'zindex'].each do |str|
         Stats.send(str, params[str]) if params[str].present?
       end
       Stats.log(" ")
@@ -29,6 +30,11 @@ module DevPanel
     def self.top(val = @@top)
       return @@top if val.class != Fixnum && val.empty?
       @@top = val
+    end
+    
+    def self.zindex(val = @@zindex)
+      return @@zindex if val.class != Fixnum && val.empty?
+      @@zindex = val || 1000
     end
 
     def self.visible(val = @@visible)
