@@ -1,10 +1,10 @@
 module DevPanel
   class Stats
 
-    @@data ||= { log: "" }
-    @@visible = "false"
-    @@left = 0
-    @@top = 0
+    @@data      ||= { log: "" }
+    @@visible     = "false"
+    @@left        = 0
+    @@top         = 0
 
     def self.set_by_params(params)
       ['visible', 'left', 'top'].each do |str|

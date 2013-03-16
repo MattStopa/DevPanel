@@ -136,7 +136,6 @@ module DevPanel
     def partial_list
       str = ""
       Stats.data[:partials].each_pair {|k,v| str << "#{k}: #{Stats.data[:partials][k]}<br>" } if Stats.data[:partials].present?
-
       str
     end
 
@@ -156,7 +155,6 @@ module DevPanel
       result = ""
       arr.each_with_index do |data, index|
         result += tr(data, index.even? ? "alt" : "")
-        tr(data, index.even? ? "alt" : "")
       end
       result
     end
