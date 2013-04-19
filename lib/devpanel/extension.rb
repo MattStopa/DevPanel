@@ -32,7 +32,9 @@ module DevPanel
                 $.get("/__DevPanel/set_options?visible=" + $("#devPanelContainer").is(":visible"));
               });
               $("#devPanelWindow").draggable({stop: function() {
-                $.get("/__DevPanel/set_options?top=" + $("#devPanelWindow").position().top + "&left=" + $("#devPanelWindow").position().left);
+                $.get("/__DevPanel/set_options?top=" + $("#devPanelWindow").position().top + "&left="
+                                                     + $("#devPanelWindow").position().left + "&zindex="
+                                                     + $("#devPanelWindow").zIndex() )
               }});
             }
           });

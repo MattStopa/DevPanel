@@ -32,7 +32,7 @@ module DevPanel
         rescue
           top = 0
         end
-        DevPanel::Stats.top(top)
+       
 
         left = nil
         begin
@@ -40,8 +40,17 @@ module DevPanel
         rescue
           left = 0
         end
+        
+        zindex = nil
+        begin
+          zindex = Rails.application.config.dev_panel_initial_zindex
+        rescue
+          zindex = 1000
+        end
+          
         DevPanel::Stats.top(top)
         DevPanel::Stats.left(left)
+        DevPanel::Stats.zindex(zindex)
       end
     end
   end
