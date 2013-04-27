@@ -15,7 +15,7 @@ debugging info. It allows you to quickly pin point slow pages or inefficencies w
 * Allows you to drag and drop the panel anywhere on the page and it will save that location between requests. It resets to the top left
   on server restart
 
-![Alt text](https://raw.github.com/MattStopa/DevPanel/master/sample.jpg?login=MattStopa&token=c291d1679b2ec07ac4a4ff112079a3aa)
+![Alt text](https://github.com/MattStopa/DevPanel/blob/master/sample.jpg)
 
 
 ### Installation
