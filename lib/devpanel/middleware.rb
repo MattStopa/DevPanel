@@ -29,6 +29,12 @@ module DevPanel
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.03), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.04);
             font-family: menlo, lucida console, monospace;
             border: 2px solid #000;
+            z-index: 500000000;
+            padding: 3px; 
+            color: #000; 
+            background-color: #F0F0F5; 
+            position: absolute; 
+            float: left;             
           }
 
           #devPanelHider {
@@ -42,12 +48,16 @@ module DevPanel
             border-bottom: 0;
             border-top-left-radius: 2px;
             border-top-right-radius: 2px;
+            width: 150px; 
+            text-align:center; 
+            border: solid 1px #fff;
           }
 
           #devPanelContainer {
             font-family: menlo, lucida console, monospace;
             background-color: #fff;
             box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+            width: 300px; padding-top: 20px;
           }
 
           #devPanelContainer td {
@@ -92,7 +102,7 @@ module DevPanel
             border-top-left-radius: 2px;
             border-top-right-radius: 2px;
             display: none;
-            z-index: 1;
+            z-index: 500000001;
           }
         </style>
       css_code
@@ -101,9 +111,9 @@ module DevPanel
     def html_containers
       <<-html_code
         <div id='partialList'>#{partial_list}</div>
-        <div id="devPanelWindow" style="padding: 3px; color: #000; background-color: #F0F0F5; position: absolute; float: left; top: #{Stats.top.to_s}px; left: #{Stats.left.to_s}px; z-index: #{Stats.zindex.to_s};" >
-        <div id="devPanelHider" style="width: 150px; text-align:center; border: solid 1px #fff"><a href="#">Show/Hide Stats</a> / <span style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
-        <div id="devPanelContainer" style="width: 300px; padding-top: 20px">
+        <div id="devPanelWindow" style="top: #{Stats.top.to_s}px; left: #{Stats.left.to_s}px;" >
+        <div id="devPanelHider"><a href="#">Show/Hide Stats</a> / <span style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
+        <div id="devPanelContainer">
       html_code
     end
 

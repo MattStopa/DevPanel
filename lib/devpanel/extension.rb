@@ -10,31 +10,33 @@ module DevPanel
     end
 
     def dev_panel_ajax
+      puts "#{jquery_cdn.nil?} + #{jquery_ui_cdn.nil?} + #{ajax_call}" 
       jquery_cdn + jquery_ui_cdn + ajax_call
     end
 
     def ajax_call
       <<-html_code
         <div id="DevPanel"></div><script type="text/javascript">
-          $.ajax({
+          var $jq = jQuery.noConflict();  
+          $jq.ajax({
             url: "/__DevPanel/main",
             success: function(response) {
-              $("#DevPanel").html(response);
+              $jq("#DevPanel").html(response);
               #{hide_container};
-              $("#viewTime").click(function(e) {
-                $("#partialList").css('top', e.pageY + 10 + 'px');
-                $("#partialList").css('left', e.pageX + 10 + 'px');
-                $("#partialList").toggle();
+              $jq("#viewTime").click(function(e) {
+                $jq("#partialList").css('top', e.pageY + 10 + 'px');
+                $jq("#partialList").css('left', e.pageX + 10 + 'px');
+                $jq("#partialList").toggle();
               });
-              $("#devPanelHider").on("click", function(s) {
-                $("#devPanelContainer").toggle();
-                $("#partialList").hide();
-                $.get("/__DevPanel/set_options?visible=" + $("#devPanelContainer").is(":visible"));
+              $jq("#devPanelHider").on("click", function(s) {
+                $jq("#devPanelContainer").toggle();
+                $jq("#partialList").hide();
+                $jq.get("/__DevPanel/set_options?visible=" + $jq("#devPanelContainer").is(":visible"));
               });
-              $("#devPanelWindow").draggable({stop: function() {
-                $.get("/__DevPanel/set_options?top=" + $("#devPanelWindow").position().top + "&left="
-                                                     + $("#devPanelWindow").position().left + "&zindex="
-                                                     + $("#devPanelWindow").zIndex() )
+              $jq("#devPanelWindow").draggable({stop: function() {
+                $jq.get("/__DevPanel/set_options?top=" + $jq("#devPanelWindow").position().top + "&left="
+                                                     + $jq("#devPanelWindow").position().left + "&zindex="
+                                                     + $jq("#devPanelWindow").zIndex() )
               }});
             }
           });
@@ -43,23 +45,23 @@ module DevPanel
     end
 
     def hide_container
-      (Stats.show?) ? '' : '$("#devPanelContainer").toggle()'
+      (Stats.show?) ? '' : '$jq("#devPanelContainer").toggle()'
+    end
+
+    def config_key(value)
+      begin
+        return Rails.application.config.send(value)
+      rescue
+        return nil
+      end
     end
 
     def jquery_cdn
-      begin
-        return '' if Rails.application.config.dev_panel_exclude_jquery == true
-      rescue
-        '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'
-      end
+      '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'
     end
 
     def jquery_ui_cdn
-      begin
-        return '' if Rails.application.config.dev_panel_exclude_jquery_ui == true
-      rescue
-        '<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>'
-      end
+      '<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>'
     end
   end
 end

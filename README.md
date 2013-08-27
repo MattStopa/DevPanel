@@ -53,10 +53,8 @@ Now if you look in the dev_panel you'll see `Fixnum`. Way easier logging, and yo
 
 ### Configuration
 
-Be aware that DevPanel loads JQuery and JQuery UI at the bottom of your page via a CDN. Most people will have JQuery already and some will have JQuery UI as well, so if you have either one in your project you don't want those files included via CDN. In that case just put the following lines in your development.rb:
+Be aware that DevPanel loads JQuery and JQuery UI at the bottom of your page via a CDN. Most people will have JQuery already and some will have JQuery UI as well, this should not be an issue because I have taken certain steps to avoid this being an issue but if you notice a conflict of some sort let me know.
 
-    config.dev_panel_exclude_jquery = true
-    config.dev_panel_exclude_jquery_ui = true
 
 You may also want to set the top and left position of the panel  in case your app  has some UI element that interferes with it. To change that just add this to your
 development.rb:

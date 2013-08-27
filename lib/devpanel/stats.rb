@@ -5,7 +5,6 @@ module DevPanel
     @@visible     = "false"
     @@left        = 0
     @@top         = 0
-    @@zindex      = 1000
 
     def self.set_by_params(params)
       ['visible', 'left', 'top', 'zindex'].each do |str|
