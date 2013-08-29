@@ -23,12 +23,16 @@ module DevPanel
     def css
       <<-css_code
         <style>
+          table {
+            width: 98%
+          }
+
           #devPanelWindow {
             border-radius: 3px;
             margin-bottom: 2px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.03), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.04);
             font-family: menlo, lucida console, monospace;
-            border: 2px solid #000;
+            border: 3px solid #29488B;
             z-index: 500000000;
             padding: 3px; 
             color: #000; 
@@ -38,7 +42,7 @@ module DevPanel
           }
 
           #devPanelHider {
-            background: #F1F1F1;
+            background: #646464;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
             font-family: arial;
             font-size: 12.8px;
@@ -53,33 +57,41 @@ module DevPanel
             border: solid 1px #fff;
           }
 
+          .hider-color {
+            color: #fff
+          }
+
           #devPanelContainer {
             font-family: menlo, lucida console, monospace;
             background-color: #fff;
             box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-            width: 300px; padding-top: 20px;
+            width: 300px;
+            padding-left: 5px;
+            padding-top: 5px;            
           }
 
           #devPanelContainer td {
             font-family: arial;
-            color: #000;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: normal;
             padding: 8px;
             overflow: auto;
           }
 
           #devPanelContainer tr {
-            background-color: #FACC9B;
+
+            background-color: #96B6FA;
+            color: #000911;
+          }
+
+          #devPanelContainer .alt {
+            background-color: #FFF;
+            color: #707F69;
           }
 
           #devPanelContainer td.firstColumn {
             width: 60px;
             font-weight: bold;
-          }
-
-          #devPanelContainer .alt {
-            background-color: #FFF;
           }
 
           #viewTime {
@@ -112,7 +124,7 @@ module DevPanel
       <<-html_code
         <div id='partialList'>#{partial_list}</div>
         <div id="devPanelWindow" style="top: #{Stats.top.to_s}px; left: #{Stats.left.to_s}px;" >
-        <div id="devPanelHider"><a href="#">Show/Hide Stats</a> / <span style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
+        <div id="devPanelHider"><a class="hider-color" href="#">Show/Hide Stats</a> / <span class="hider-color" style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
         <div id="devPanelContainer">
       html_code
     end
@@ -136,7 +148,7 @@ module DevPanel
         first_td("Log:")               + td(Stats.data[:log])
       ])
 
-      "<table style='width: 290px; margin: auto; table-layout: fixed'>#{table_rows}</table></div></div>"
+      "<table style='margin: auto; table-layout: fixed'>#{table_rows}</table></div></div>"
     end
 
     def partial_count
