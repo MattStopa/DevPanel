@@ -29,7 +29,7 @@ module DevPanel
                 $jq("#partialList").toggle();
               });
               $jq("#devPanelHider").on("click", function(s) {
-                $jq("#devPanelContainer").toggle();
+                $jq("#devPanelContainer").slideToggle(110);
                 $jq("#partialList").hide();
                 $jq.get("/__DevPanel/set_options?visible=" + $jq("#devPanelContainer").is(":visible"));
               });

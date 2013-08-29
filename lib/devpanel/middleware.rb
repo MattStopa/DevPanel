@@ -24,7 +24,7 @@ module DevPanel
       <<-css_code
         <style>
           table {
-            width: 98%
+            width: 100%
           }
 
           #devPanelWindow {
@@ -42,7 +42,7 @@ module DevPanel
           }
 
           #devPanelHider {
-            background: #646464;
+            background: #5366EB;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
             font-family: arial;
             font-size: 12.8px;
@@ -52,8 +52,7 @@ module DevPanel
             border-bottom: 0;
             border-top-left-radius: 2px;
             border-top-right-radius: 2px;
-            width: 150px; 
-            text-align:center; 
+            text-align:left; 
             border: solid 1px #fff;
           }
 
@@ -66,31 +65,32 @@ module DevPanel
             background-color: #fff;
             box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
             width: 300px;
-            padding-left: 5px;
-            padding-top: 5px;            
+            padding: 2px           
           }
 
           #devPanelContainer td {
             font-family: arial;
             font-size: 12px;
             font-weight: normal;
-            padding: 8px;
+            padding: 5px;
             overflow: auto;
+            letter-spacing: 1.5px
           }
 
           #devPanelContainer tr {
-
-            background-color: #96B6FA;
-            color: #000911;
+            background-color: #2E2E2E;
+            color: rgb(238, 238, 238);
+            border-bottom: 1px solid #4B4444;
           }
 
           #devPanelContainer .alt {
-            background-color: #FFF;
-            color: #707F69;
+            background-color: #000000;
+            color: rgb(238, 238, 238);
+            border-bottom: 1px solid #4B4444;
           }
 
           #devPanelContainer td.firstColumn {
-            width: 60px;
+            width: 90px;
             font-weight: bold;
           }
 
@@ -116,6 +116,12 @@ module DevPanel
             display: none;
             z-index: 500000001;
           }
+
+          .green { background: #21D61A !important}
+          .yellow { background: #BEBE00 !important }
+          .orange { background: #F0A811 !important }
+          .red { background: #B90000 !important }
+
         </style>
       css_code
     end
@@ -124,9 +130,23 @@ module DevPanel
       <<-html_code
         <div id='partialList'>#{partial_list}</div>
         <div id="devPanelWindow" style="top: #{Stats.top.to_s}px; left: #{Stats.left.to_s}px;" >
-        <div id="devPanelHider"><a class="hider-color" href="#">Show/Hide Stats</a> / <span class="hider-color" style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
+        <div id="devPanelHider" class="#{heat_color}"><a class="hider-color" href="#">#{stats(:controller)}##{stats(:action)}</a> / <span class="hider-color" style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
         <div id="devPanelContainer">
       html_code
+    end
+
+    def heat_color
+      time = Stats.data[:action_controller].duration.round(0)
+      if(time < 500)
+         "green"
+      elsif(time < 1500)
+         "yellow"
+      elsif(time < 2500)
+         "orange"
+      else
+         "red"
+       end
+
     end
 
     def stats(symbol)
@@ -134,13 +154,12 @@ module DevPanel
     end
 
     def html_table
-      controller_time = (Stats.data[:action_controller].duration - stats(:view_runtime))
       table_rows = rowify([
-        first_td("Total Time:")        + td("#{Stats.data[:action_controller].duration.round(2).to_s}ms"),
-        first_td("Controller Time:")   + td("#{controller_time.round(2).to_s}ms"),
-        first_td("View Time:")         + td("#{stats(:view_runtime).round(2).to_s}ms"),
-        first_td("Partials Rendered:") + td(partial_count),
-        first_td("Response Code:")     + td(stats(:status)),
+        first_td("Total:")        + td("#{Stats.total_duration.to_s}ms"),
+        first_td("Controller:")   + td("#{Stats.controller_duration.to_s}ms (#{Stats.controller_duration_percent}%)"),
+        first_td("View:")         + td("#{Stats.view_duration.to_s}ms (#{Stats.view_duration_percent}%)"),
+        first_td("Partials:") + td(partial_count),
+        first_td("Response:")     + td(stats(:status)),
         first_td("Controller:")        + td(stats(:controller)),
         first_td("Action:")            + td(stats(:action)),
         first_td("Method:")            + td(stats(:method)),

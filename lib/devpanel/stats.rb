@@ -17,6 +17,31 @@ module DevPanel
       @@data ||= { log: "" }
     end
 
+    def self.total_duration
+      data[:action_controller].duration.round(2)
+    end
+
+    def self.controller_duration
+      (data[:action_controller].duration - stats(:view_runtime)).round(2)
+    end
+
+    def self.view_duration
+      stats(:view_runtime).round(2)
+    end
+
+    def self.controller_duration_percent
+      ((controller_duration / total_duration) * 100).round(0)
+    end
+
+    def self.view_duration_percent
+      ((view_duration / total_duration) * 100).round(0)
+    end
+
+    def self.stats(symbol)
+      data[:action_controller].payload[symbol]
+    end
+
+
     def self.delete_data
       @@data = {}
     end

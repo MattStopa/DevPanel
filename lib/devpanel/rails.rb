@@ -5,6 +5,11 @@ module DevPanel
 
         Rails.application.middleware.use DevPanel::Middleware
 
+        ActiveSupport::Notifications.subscribe(//) do |*args|
+          event = ActiveSupport::Notifications::Event.new(*args)
+          puts event.inspect
+        end
+
         ActiveSupport::Notifications.subscribe('start_processing.action_controller') do |*args|
           event = ActiveSupport::Notifications::Event.new(*args)
           Stats.delete_data if event.payload[:format] == :html

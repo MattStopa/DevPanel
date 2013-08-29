@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'dev_panel'
-  s.version     = '0.2.5'
+  s.version     = '0.2.6'
   s.date        = '2013-08-26'
   s.summary     = "DevPanel, a gem for performance stats and debugging information"
   s.description = "A panel that appears in the browser to provide stats on page load times and other debugging information for Rails 3"
