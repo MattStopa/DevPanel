@@ -1,6 +1,11 @@
 require 'spec_helper'
-require CurrentDir + '/lib/devpanel/extension.rb'
+require CurrentDir + '/lib/devpanel/stats.rb'
 
-describe DevPanel::Panel do
-  pending "write it"
+describe DevPanel::Stats do
+  context '#data' do
+    it 'has an initial value' do
+      stats = described_class.data
+      expect(stats).to eql({:log=>''})
+    end
+  end
 end

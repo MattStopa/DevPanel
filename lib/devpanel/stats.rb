@@ -17,6 +17,25 @@ module DevPanel
       @@data ||= { log: "" }
     end
 
+    def self.left(val = @@left)
+      return @@left if val.class != Fixnum && val.empty?
+      @@left = val || 0
+    end
+
+    def self.top(val = @@top)
+      return @@top if val.class != Fixnum && val.empty?
+      @@top = val
+    end
+
+    def self.zindex(val = @@zindex)
+      return @@zindex if val.class != Fixnum && val.empty?
+      @@zindex = val || 1000
+    end
+
+    def self.visible(val = @@visible)
+      @@visible = val
+    end
+
     def self.total_duration
       data[:action_controller].duration.round(2)
     end
@@ -44,25 +63,6 @@ module DevPanel
 
     def self.delete_data
       @@data = {}
-    end
-
-    def self.left(val = @@left)
-      return @@left if val.class != Fixnum && val.empty?
-      @@left = val || 0
-    end
-
-    def self.top(val = @@top)
-      return @@top if val.class != Fixnum && val.empty?
-      @@top = val
-    end
-    
-    def self.zindex(val = @@zindex)
-      return @@zindex if val.class != Fixnum && val.empty?
-      @@zindex = val || 1000
-    end
-
-    def self.visible(val = @@visible)
-      @@visible = val
     end
 
     def self.show?
