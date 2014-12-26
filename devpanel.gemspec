@@ -1,4 +1,5 @@
 Gem::Specification.new do |s|
+  s.add_development_dependency "rspec"
   s.name        = 'dev_panel'
   s.version     = '0.3'
   s.date        = '2013-08-29'
