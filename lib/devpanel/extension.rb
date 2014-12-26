@@ -10,19 +10,52 @@ module DevPanel
     end
 
     def dev_panel_ajax
-      puts "#{jquery_cdn.nil?} + #{jquery_ui_cdn.nil?} + #{ajax_call}" 
+      puts "#{jquery_cdn.nil?} + #{jquery_ui_cdn.nil?} + #{ajax_call}"
       jquery_cdn + jquery_ui_cdn + ajax_call
     end
 
     def ajax_call
       <<-html_code
         <div id="DevPanel"></div><script type="text/javascript">
-          var $jq = jQuery.noConflict();  
+          var $jq = jQuery.noConflict();
           $jq.ajax({
             url: "/__DevPanel/main",
             success: function(response) {
               $jq("#DevPanel").html(response);
               #{hide_container};
+              $jq("#consoleButton").click(function(e){
+                $("#console").toggle();
+                $jq("#console").css('top', e.pageY + 10 + 'px');
+                $jq("#console").css('left', e.pageX + 10 + 'px');
+              })
+
+              previous = null;
+
+              $jq("#consoleInput").keydown(function(e) {
+                if(event.keyCode == 38) {
+                  $jq("#consoleInput").val(previous);
+                }
+
+                if(event.which == 13) {
+
+                  if($jq("#consoleInput").val() == "") {
+                    $jq("#consoleResults").append("><br>");
+                    return "";
+                    $jq("#consoleResults")[0].scrollTop = $jq("#consoleResults")[0].scrollHeight
+                  }
+                    $jq.ajax({
+                      url: "/__DevPanel/console?query=" + $jq("#consoleInput").val(),
+                      success: function(results) {
+                        previous = $jq("#consoleInput").val()
+                        $jq("#consoleResults").append(">" + results + "<br>");
+                        $jq("#consoleInput").val("");
+                        $jq("#consoleResults")[0].scrollTop = $jq("#consoleResults")[0].scrollHeight
+                      }
+
+                    })
+                  }
+              })
+
               $jq("#viewTime").click(function(e) {
                 $jq("#partialList").css('top', e.pageY + 10 + 'px');
                 $jq("#partialList").css('left', e.pageX + 10 + 'px');
@@ -31,6 +64,7 @@ module DevPanel
               $jq("#devPanelHider").on("click", function(s) {
                 $jq("#devPanelContainer").slideToggle(110);
                 $jq("#partialList").hide();
+                $jq("#console").hide();
                 $jq.get("/__DevPanel/set_options?visible=" + $jq("#devPanelContainer").is(":visible"));
               });
               $jq("#devPanelWindow").draggable({stop: function() {

@@ -7,7 +7,6 @@ module DevPanel
 
         ActiveSupport::Notifications.subscribe(//) do |*args|
           event = ActiveSupport::Notifications::Event.new(*args)
-          puts event.inspect
         end
 
         ActiveSupport::Notifications.subscribe('start_processing.action_controller') do |*args|

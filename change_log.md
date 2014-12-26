@@ -1,5 +1,9 @@
 ## Versions
 
+### 0.3
+
+- Add a basic rails console in dev_panel.
+
 ### 0.2.7
 
 - Add percentage time taken for each action (controller/view)

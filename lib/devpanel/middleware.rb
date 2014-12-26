@@ -11,6 +11,10 @@ module DevPanel
          params = Rack::Utils.parse_query(env['QUERY_STRING'], "&")
          Stats.set_by_params(params)
         [200, { "Content-Type" => "text/plain; charset=utf-8" }, ["#{Stats.show?} #{Stats.left} #{Stats.top}"]]
+      elsif env["REQUEST_URI"] =~ /__DevPanel\/console/
+        params = Rack::Utils.parse_query(env['QUERY_STRING'], "&")
+        query = params["query"]
+        [200, { "Content-Type" => "text/plain; charset=utf-8" }, ["#{CGI::escapeHTML(eval(query).to_s)}"]]
       else
         @app.call(env)
       end
@@ -117,6 +121,37 @@ module DevPanel
             z-index: 500000001;
           }
 
+          #console {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background: #F1F1F1;
+            border: 2px solid #000;
+            background-color: #fff;
+            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+            font-family: arial;
+            font-size: 10px;
+            overflow: hidden;
+            padding: 6px 10px;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            display: none;
+            z-index: 500000001;
+            width: 600px;
+          }
+
+          #consoleResults {
+            width: 97%;
+            height: 250px;
+            font-size: 13px;
+            overflow-x: scroll;
+          }
+
+          #consoleInput {
+            width: 97%;
+            height: 20px;
+          }
+
           .green { background: #21D61A !important}
           .yellow { background: #BEBE00 !important }
           .orange { background: #F0A811 !important }
@@ -129,6 +164,11 @@ module DevPanel
     def html_containers
       <<-html_code
         <div id='partialList'>#{partial_list}</div>
+        <div id='console'>
+          <div id="consoleResults">></div>        
+          <input id="consoleInput" type="text" placeholder="Type Command">
+
+        </div>
         <div id="devPanelWindow" style="top: #{Stats.top.to_s}px; left: #{Stats.left.to_s}px;" >
         <div id="devPanelHider" class="#{heat_color}"><a class="hider-color" href="#">#{stats(:controller)}##{stats(:action)}</a> / <span class="hider-color" style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
         <div id="devPanelContainer">
@@ -145,8 +185,7 @@ module DevPanel
          "orange"
       else
          "red"
-       end
-
+      end
     end
 
     def stats(symbol)
@@ -155,16 +194,17 @@ module DevPanel
 
     def html_table
       table_rows = rowify([
-        first_td("Total:")        + td("#{Stats.total_duration.to_s}ms"),
-        first_td("Controller:")   + td("#{Stats.controller_duration.to_s}ms (#{Stats.controller_duration_percent}%)"),
-        first_td("View:")         + td("#{Stats.view_duration.to_s}ms (#{Stats.view_duration_percent}%)"),
-        first_td("Partials:") + td(partial_count),
-        first_td("Response:")     + td(stats(:status)),
-        first_td("Controller:")        + td(stats(:controller)),
-        first_td("Action:")            + td(stats(:action)),
-        first_td("Method:")            + td(stats(:method)),
-        first_td("Params:")            + td(stats(:params)),
-        first_td("Log:")               + td(Stats.data[:log])
+        first_td("Tools:")            + td("<a href='#' id='consoleButton'>Console</a>"),        
+        first_td("Total:")            + td("#{Stats.total_duration.to_s}ms"),
+        first_td("Controller:")       + td("#{Stats.controller_duration.to_s}ms (#{Stats.controller_duration_percent}%)"),
+        first_td("View:")             + td("#{Stats.view_duration.to_s}ms (#{Stats.view_duration_percent}%)"),
+        first_td("Partials:")         + td(partial_count),
+        first_td("Response:")         + td(stats(:status)),
+        first_td("Controller:")       + td(stats(:controller)),
+        first_td("Action:")           + td(stats(:action)),
+        first_td("Method:")           + td(stats(:method)),
+        first_td("Params:")           + td(stats(:params)),
+        first_td("Log:")              + td(Stats.data[:log])
       ])
 
       "<table style='margin: auto; table-layout: fixed'>#{table_rows}</table></div></div>"
