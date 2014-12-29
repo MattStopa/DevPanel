@@ -62,10 +62,10 @@ module DevPanel
                 $jq("#partialList").toggle();
               });
               $jq("#devPanelHider").on("click", function(s) {
+                $jq.get("/__DevPanel/set_options?visible=" + !$jq("#devPanelContainer").is(":visible"));
                 $jq("#devPanelContainer").slideToggle(110);
                 $jq("#partialList").hide();
                 $jq("#console").hide();
-                $jq.get("/__DevPanel/set_options?visible=" + $jq("#devPanelContainer").is(":visible"));
               });
               $jq("#devPanelWindow").draggable({stop: function() {
                 $jq.get("/__DevPanel/set_options?top=" + $jq("#devPanelWindow").position().top + "&left="
