@@ -24,7 +24,7 @@ module DevPanel
               $jq("#DevPanel").html(response);
               #{hide_container};
               $jq("#consoleButton").click(function(e){
-                $("#console").toggle();
+                $jq("#console").toggle();
                 $jq("#console").css('top', e.pageY + 10 + 'px');
                 $jq("#console").css('left', e.pageX + 10 + 'px');
               })
