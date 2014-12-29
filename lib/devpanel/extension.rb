@@ -82,14 +82,6 @@ module DevPanel
       (Stats.show?) ? '' : '$jq("#devPanelContainer").toggle()'
     end
 
-    def config_key(value)
-      begin
-        return Rails.application.config.send(value)
-      rescue
-        return nil
-      end
-    end
-
     def jquery_cdn
       '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'
     end
