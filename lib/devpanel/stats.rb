@@ -1,20 +1,25 @@
 module DevPanel
   class Stats
 
-    @@data      ||= { log: "" }
-    @@visible     = "false"
-    @@left        = 0
-    @@top         = 0
+    def self.set_defaults
+      @@data    ||= { log: '' }
+      @@visible = 'false'
+      @@left    = 0
+      @@top     = 0
+      @@zindex  = 1000
+    end
+
+    set_defaults
 
     def self.set_by_params(params)
       ['visible', 'left', 'top', 'zindex'].each do |str|
-        Stats.send(str, params[str]) if params[str].present?
+        Stats.send(str, params[str]) if params[str]
       end
-      Stats.log(" ")
+      Stats.log(' ')
     end
 
     def self.data
-      @@data ||= { log: "" }
+      @@data ||= { log: '' }
     end
 
     def self.left(val = @@left)
