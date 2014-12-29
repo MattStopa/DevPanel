@@ -23,15 +23,18 @@ module DevPanel
       ['visible', 'left', 'top', 'zindex'].each do |str|
         Stats.send(str, params[str]) if params[str]
       end
-      Stats.log(' ')
     end
 
     def self.method_missing(*arr)
-      if [:data, :left, :top, :zindex].include?(arr.first)
-        return self.class_variable_get(:"@@#{arr.first}") if(invalid_number?(arr.last))
+      if [:left, :top, :zindex].include?(arr.first)
+        return self.class_variable_get(:"@@#{arr.first}") if arr.size < 2 || (invalid_number?(arr.last.to_i))
         self.class_variable_set(:"@@#{arr.first}", (arr.last || defaults[arr.first]))
-        self.class_variable_get(:"@@#{arr.first}")
+        return self.class_variable_get(:"@@#{arr.first}")
       end
+    end
+
+    def self.data
+      @@data
     end
 
     def self.visible(val = @@visible)
@@ -67,7 +70,7 @@ module DevPanel
     end
 
     def self.delete_data
-      data = {}
+      self.data = {}
     end
 
     def self.show?
