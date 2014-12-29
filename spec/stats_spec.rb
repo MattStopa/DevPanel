@@ -53,4 +53,18 @@ describe DevPanel::Stats do
       expect(stats.zindex).to eql(50000)
     end
   end
+
+  context '#invalid_number?' do
+    it 'returns true if the class is not a number' do
+      expect(stats.invalid_number?('aaa')).to eql(true)
+    end
+
+    it 'returns true if the class is nil' do
+      expect(stats.invalid_number?(nil)).to eql(true)
+    end
+
+    it 'returns false if the class is a number' do
+      expect(stats.invalid_number?(2)).to eql(false)
+    end
+  end
 end

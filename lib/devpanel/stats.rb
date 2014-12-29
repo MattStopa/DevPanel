@@ -1,12 +1,20 @@
 module DevPanel
   class Stats
 
+    def self.defaults
+      {
+        data: { log: '' },
+        visible: 'false',
+        left: 0,
+        top: 0,
+        zindex: 1000
+      }
+    end
+
     def self.set_defaults
-      @@data    ||= { log: '' }
-      @@visible = 'false'
-      @@left    = 0
-      @@top     = 0
-      @@zindex  = 1000
+      defaults.each_pair do |key, value|
+        self.class_variable_set(:"@@#{key}", value)
+      end
     end
 
     set_defaults
@@ -18,27 +26,20 @@ module DevPanel
       Stats.log(' ')
     end
 
-    def self.data
-      @@data ||= { log: '' }
-    end
-
-    def self.left(val = @@left)
-      return @@left if val.class != Fixnum && val.empty?
-      @@left = val || 0
-    end
-
-    def self.top(val = @@top)
-      return @@top if val.class != Fixnum && val.empty?
-      @@top = val
-    end
-
-    def self.zindex(val = @@zindex)
-      return @@zindex if val.class != Fixnum && val.empty?
-      @@zindex = val || 1000
+    def self.method_missing(*arr)
+      if [:data, :left, :top, :zindex].include?(arr.first)
+        return self.class_variable_get(:"@@#{arr.first}") if(invalid_number?(arr.last))
+        self.class_variable_set(:"@@#{arr.first}", (arr.last || defaults[arr.first]))
+        self.class_variable_get(:"@@#{arr.first}")
+      end
     end
 
     def self.visible(val = @@visible)
       @@visible = val
+    end
+
+    def self.invalid_number?(val)
+      val.class != Fixnum || val.nil?
     end
 
     def self.total_duration
@@ -67,7 +68,7 @@ module DevPanel
 
 
     def self.delete_data
-      @@data = {}
+      data = {}
     end
 
     def self.show?
@@ -75,10 +76,10 @@ module DevPanel
     end
 
     def self.log(log)
-      @@data[:log] ||= ""
-      @@data[:log] += "<div style='border-bottom: 1px black solid'>"
-      @@data[:log] += CGI::escapeHTML("#{log}")
-      @@data[:log] += "</div>"
+      data[:log] ||= ""
+      data[:log] += "<div style='border-bottom: 1px black solid'>"
+      data[:log] += CGI::escapeHTML("#{log}")
+      data[:log] += "</div>"
     end
 
     def self.time
