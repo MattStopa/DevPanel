@@ -1,4 +1,12 @@
 module DevPanel
+  class Config
+    def self.initial_value(key, default)
+      initial = Rails.application.config.send(key)
+      rescue
+        initial = default
+    end
+  end
+
   class Railtie < Rails::Railtie
     initializer "dev_panel.configure_rails_initialization" do
       Rails.application.middleware.use DevPanel::Middleware
@@ -27,28 +35,9 @@ module DevPanel
         Stats.data[:partials][partial_name] += 1
       end
 
-
-      top = nil
-      begin
-        top = Rails.application.config.dev_panel_initial_top
-      rescue
-        top = 0
-      end
-
-
-      left = nil
-      begin
-        left = Rails.application.config.dev_panel_initial_left
-      rescue
-        left = 0
-      end
-
-      zindex = nil
-      begin
-        zindex = Rails.application.config.dev_panel_initial_zindex
-      rescue
-        zindex = 1000
-      end
+      top = DevPanel::Config.initial_value('dev_panel_initial_top', 0)
+      left = DevPanel::Config.initial_value('dev_panel_initial_left', 0)
+      zindex = DevPanel::Config.initial_value('dev_panel_initial_zindex', 1000)
 
       DevPanel::Stats.top(top)
       DevPanel::Stats.left(left)
