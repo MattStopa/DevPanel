@@ -66,7 +66,6 @@ module DevPanel
       data[:action_controller].payload[symbol]
     end
 
-
     def self.delete_data
       data = {}
     end
@@ -75,7 +74,8 @@ module DevPanel
       @@visible == "true"
     end
 
-    def self.log(log)
+    def self.log(log = nil)
+      return data[:log] unless log
       data[:log] ||= ""
       data[:log] += "<div style='border-bottom: 1px black solid'>"
       data[:log] += CGI::escapeHTML("#{log}")

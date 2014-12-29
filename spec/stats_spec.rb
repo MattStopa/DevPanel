@@ -67,4 +67,23 @@ describe DevPanel::Stats do
       expect(stats.invalid_number?(2)).to eql(false)
     end
   end
+
+  context '#log' do
+    it 'returns logged data if nothing is passed in' do
+      stats.log('20')
+      expect(stats.log).to eql("<div style='border-bottom: 1px black solid'>20</div>")
+    end
+
+    it 'logs one item' do
+      stats.log('10')
+      expect(stats.log).to eql("<div style='border-bottom: 1px black solid'>10</div>")
+    end
+
+    it 'logs multiple items' do
+      stats.log('10')
+      stats.log('22')
+      expect(stats.log).to eql("<div style='border-bottom: 1px black solid'>10</div>" +
+        "<div style='border-bottom: 1px black solid'>22</div>")
+    end
+  end
 end
