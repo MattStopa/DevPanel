@@ -86,4 +86,22 @@ describe DevPanel::Stats do
         "<div style='border-bottom: 1px black solid'>22</div>")
     end
   end
+
+  context '#set_by_params' do
+    it 'sets the all properties when a hash is passed in' do
+      stats.set_by_params({'left' => 55, 'top' => 22, 'visible' => false, 'zindex' => 0})
+      expect(stats.left).to eql(55)
+      expect(stats.top).to eql(22)
+      expect(stats.visible).to eql('false')
+      expect(stats.zindex).to eql(0)
+    end
+
+    it 'doesnt affect anything if wrong params are passed in' do
+      stats.set_by_params({'banana' => 44444})
+      expect(stats.left).to eql(0)
+      expect(stats.top).to eql(0)
+      expect(stats.visible).to eql('false')
+      expect(stats.zindex).to eql(1000)
+    end
+  end
 end
