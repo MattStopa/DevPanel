@@ -104,4 +104,15 @@ describe DevPanel::Stats do
       expect(stats.zindex).to eql(1000)
     end
   end
+
+  context '#show?' do
+    it 'shows false by default' do
+      expect(stats.show?).to eql(false)
+    end
+
+    it 'to be true if set to show' do
+      stats.set_by_params({'visible' => 'true'})
+      expect(stats.show?).to eql(true)
+    end
+  end
 end
