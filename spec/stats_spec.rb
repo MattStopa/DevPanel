@@ -115,4 +115,16 @@ describe DevPanel::Stats do
       expect(stats.show?).to eql(true)
     end
   end
+
+  context '#time' do
+    it 'should log how long an action took' do
+      stats.time { sleep(1) }
+      expect(stats.log).to include('Time Elapsed: 1000')
+    end
+
+    it 'should allow tagging a time trial' do
+      stats.time('first') { sleep(1) }
+      expect(stats.log).to include('first')
+    end
+  end
 end

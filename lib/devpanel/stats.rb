@@ -83,11 +83,11 @@ module DevPanel
         data[:log] += "</div>"
       end
 
-      def time
+      def time(tag = nil)
         start = Time.now
         yield
         time_spent = ((Time.now - start)*1000).round(2)
-        self.log("Time Elapsed: #{time_spent}ms")
+        self.log("#{tag}: Time Elapsed: #{time_spent}ms")
       end
     end
 
