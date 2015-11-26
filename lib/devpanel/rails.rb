@@ -34,14 +34,6 @@ module DevPanel
         Stats.data[:partials][partial_name] ||= 0
         Stats.data[:partials][partial_name] += 1
       end
-
-      top = DevPanel::Config.initial_value('dev_panel_initial_top', 0)
-      left = DevPanel::Config.initial_value('dev_panel_initial_left', 0)
-      zindex = DevPanel::Config.initial_value('dev_panel_initial_zindex', 1000)
-
-      DevPanel::Stats.top(top)
-      DevPanel::Stats.left(left)
-      DevPanel::Stats.zindex(zindex)
     end
   end
 end

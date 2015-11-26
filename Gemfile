@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'erb'
+
 group :development do
   gem 'bundler'
   gem 'rspec', '~> 2.14'

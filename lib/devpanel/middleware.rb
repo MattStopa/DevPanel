@@ -5,174 +5,45 @@ module DevPanel
     end
 
     def call(env)
-      if env["REQUEST_URI"] =~ /__DevPanel\/main/
+      request_uri = env["REQUEST_URI"]
+      params = Rack::Utils.parse_query(env['QUERY_STRING'], "&")
+
+      if request_uri =~ /__DevPanel\/main/
         [200, { "Content-Type" => "text/html; charset=utf-8" }, [dev_panel_output]]
-      elsif env["REQUEST_URI"] =~ /__DevPanel\/set_options/
-         params = Rack::Utils.parse_query(env['QUERY_STRING'], "&")
-         Stats.set_by_params(params)
+      elsif request_uri =~ /__DevPanel\/set_options/
+        Stats.set_by_params(params)
         [200, { "Content-Type" => "text/plain; charset=utf-8" }, ["#{Stats.show?} #{Stats.left} #{Stats.top}"]]
-      elsif env["REQUEST_URI"] =~ /__DevPanel\/console/
-        params = Rack::Utils.parse_query(env['QUERY_STRING'], "&")
+      elsif request_uri =~ /__DevPanel\/console/
         query = params["query"]
         [200, { "Content-Type" => "text/plain; charset=utf-8" }, ["#{CGI::escapeHTML(eval(query).to_s)}"]]
+      elsif request_uri =~ /__DevPanel\/assets/
+        data = File.read(__dir__ + '/assets/' + request_uri.split('/__DevPanel/assets/').last)
+        [200, { "Content-Type" => "text/plain; charset=utf-8" }, [data]]
       else
         @app.call(env)
       end
     end
 
     def dev_panel_output
-      (css + html_containers + html_table).html_safe
+      junk.html_safe
     end
 
-    def css
-      <<-css_code
-        <style>
-          table {
-            width: 100%
-          }
-
-          #devPanelWindow {
-            border-radius: 3px;
-            margin-bottom: 2px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.03), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.04);
-            font-family: menlo, lucida console, monospace;
-            border: 3px solid #29488B;
-            z-index: 500000000;
-            padding: 3px; 
-            color: #000; 
-            background-color: #F0F0F5; 
-            position: absolute; 
-            float: left;             
-          }
-
-          #devPanelHider {
-            background: #5366EB;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            font-family: arial;
-            font-size: 12.8px;
-            overflow: hidden;
-            padding: 6px 10px;
-            border: solid 1px #CCC;
-            border-bottom: 0;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-            text-align:left; 
-            border: solid 1px #fff;
-          }
-
-          .hider-color {
-            color: #fff
-          }
-
-          #devPanelContainer {
-            font-family: menlo, lucida console, monospace;
-            background-color: #fff;
-            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            padding: 2px           
-          }
-
-          #devPanelContainer td {
-            font-family: arial;
-            font-size: 12px;
-            font-weight: normal;
-            padding: 5px;
-            overflow: auto;
-            letter-spacing: 1.5px
-          }
-
-          #devPanelContainer tr {
-            background-color: #2E2E2E;
-            color: rgb(238, 238, 238);
-            border-bottom: 1px solid #4B4444;
-          }
-
-          #devPanelContainer .alt {
-            background-color: #000000;
-            color: rgb(238, 238, 238);
-            border-bottom: 1px solid #4B4444;
-          }
-
-          #devPanelContainer td.firstColumn {
-            width: 90px;
-            font-weight: bold;
-          }
-
-          #viewTime {
-            font-size: 10px;
-            text-decoration: underline;
-          }
-
-          #partialList {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background: #F1F1F1;
-            border: 2px solid #000;
-            background-color: #fff;
-            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-            font-family: arial;
-            font-size: 10px;
-            overflow: hidden;
-            padding: 6px 10px;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-            display: none;
-            z-index: 500000001;
-          }
-
-          #console {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background: #F1F1F1;
-            border: 2px solid #000;
-            background-color: #fff;
-            box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-            font-family: arial;
-            font-size: 10px;
-            overflow: hidden;
-            padding: 6px 10px;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-            display: none;
-            z-index: 500000001;
-            width: 600px;
-          }
-
-          #consoleResults {
-            width: 97%;
-            height: 250px;
-            font-size: 13px;
-            overflow-x: scroll;
-          }
-
-          #consoleInput {
-            width: 97%;
-            height: 20px;
-          }
-
-          .green { background: #21D61A !important}
-          .yellow { background: #BEBE00 !important }
-          .orange { background: #F0A811 !important }
-          .red { background: #B90000 !important }
-
-        </style>
-      css_code
-    end
-
-    def html_containers
-      <<-html_code
-        <div id='partialList'>#{partial_list}</div>
-        <div id='console'>
-          <div id="consoleResults">></div>        
-          <input id="consoleInput" type="text" placeholder="Type Command">
-
-        </div>
-        <div id="devPanelWindow" style="top: #{Stats.top.to_s}px; left: #{Stats.left.to_s}px;" >
-        <div id="devPanelHider" class="#{heat_color}"><a class="hider-color" href="#">#{stats(:controller)}##{stats(:action)}</a> / <span class="hider-color" style="font-size: 10px">#{Stats.data[:action_controller].duration.round(0).to_s}ms</span></div>
-        <div id="devPanelContainer">
-      html_code
+    def junk
+      template = ERB.new File.new("#{__dir__}/views/header.html.erb").read, nil, "%"
+      os = OpenStruct.new(
+                          controller: stats(:controller),
+                          action: stats(:action),
+                          status: stats(:status),
+                          partial_count: partial_count,
+                          total_duration: Stats.total_duration.round(0).to_s,
+                          controller_duration: Stats.controller_duration.round(0).to_s,
+                          controller_percent: Stats.controller_duration.round(0).to_s,
+                          view_duration: Stats.view_duration.to_s,
+                          view_duration_percent: Stats.view_duration_percent,
+                          log: Stats.data[:log],
+                          partial_list: partial_list
+                        )
+      template.result(os.instance_eval { binding })
     end
 
     def heat_color
@@ -192,26 +63,8 @@ module DevPanel
       Stats.data[:action_controller].payload[symbol]
     end
 
-    def html_table
-      table_rows = rowify([
-        first_td("Tools:")            + td("<a href='#' id='consoleButton'>Console</a>"),        
-        first_td("Total:")            + td("#{Stats.total_duration.to_s}ms"),
-        first_td("Controller:")       + td("#{Stats.controller_duration.to_s}ms (#{Stats.controller_duration_percent}%)"),
-        first_td("View:")             + td("#{Stats.view_duration.to_s}ms (#{Stats.view_duration_percent}%)"),
-        first_td("Partials:")         + td(partial_count),
-        first_td("Response:")         + td(stats(:status)),
-        first_td("Controller:")       + td(stats(:controller)),
-        first_td("Action:")           + td(stats(:action)),
-        first_td("Method:")           + td(stats(:method)),
-        first_td("Params:")           + td(stats(:params)),
-        first_td("Log:")              + td(Stats.data[:log])
-      ])
-
-      "<table style='margin: auto; table-layout: fixed'>#{table_rows}</table></div></div>"
-    end
-
     def partial_count
-      "<div id='viewTime'>#{Stats.data[:partial_count] || 0}</div>"
+      Stats.data[:partial_count] || 0
     end
 
     def partial_list
@@ -219,26 +72,5 @@ module DevPanel
       Stats.data[:partials].each_pair {|k,v| str << "#{k}: #{Stats.data[:partials][k]}<br>" } if Stats.data[:partials].present?
       str
     end
-
-    def tr(content = "", klass="")
-      "<tr class=#{klass}>#{content}</tr>"
-    end
-
-    def td(content = "")
-      "<td>#{content}</td>"
-    end
-
-    def first_td(content = "")
-      "<td class='firstColumn'>#{content}</td>"
-    end
-
-    def rowify(arr)
-      result = ""
-      arr.each_with_index do |data, index|
-        result += tr(data, index.even? ? "alt" : "")
-      end
-      result
-    end
-
   end
 end

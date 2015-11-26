@@ -68,7 +68,7 @@ module DevPanel
       end
 
       def delete_data
-        self.data = {}
+        @@data = {}
       end
 
       def show?

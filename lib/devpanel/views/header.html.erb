@@ -1,0 +1,79 @@
+<style>
+  body { background-color: #fff; font-family: 'Montserrat', sans-serif; margin: 0px; text-shadow: rgba(255, 255, 255, 0.498039) 0px 1px 0px;}
+  .logo { background-color: #fff; color: rgb(68, 68, 68); float: left;
+    height: 50px;
+    padding-right: 23px;
+    font-size: 33px;
+  }
+  .box { width: initial; margin-left: 14px; margin-right: 14px; float:left; margin: 5 0 5 0; padding-left: 15px; padding-right: 15px;
+    border-right: #D8D8D8 2px solid; }
+  .container { margin: auto; max-width: 800px; height: 50px; color: #B78080;}
+  .thing { text-align: center; }
+  .title { font-size: 8px; float: left; margin: auto; width: 100%; color: rgba(181, 181, 181, 0.870588); text-align: center }
+  .button-success { color: #fff; background-color: #5cb85c; border-color: #4cae4c; padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 100;
+    line-height: 1.42857143;}
+
+
+</style>
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+<div class='container' id='main'>
+  <div>
+    <div class='box'>
+     <div class='logo' style='float: left; height: 18px; font-size: 15px; width: 100%; text-align: center'>
+        DevPanel
+      </div>
+      <div class='thing' style='font-size: 14px; margin-top: 10px float: left width: 100%; text-align: center'>
+        <%= "#{controller}##{action}" %> </div>
+    </div>
+    <div class='box'>
+      <div class='title'>Status</div>
+      <div class='thing'><%= status %></div>
+    </div>
+
+    <div class='box'>
+      <div class='title'>Total Time</div>
+      <div class='thing'><%= total_duration %>ms</div>
+    </div>
+    <div class='box'>
+      <div class='title'>Controller Time</div>
+      <div class='thing'><%= "#{controller_duration}ms (#{controller_percent}%)" %></div>
+    </div>
+    <div class='box'>
+      <div class='title'>View Time</div>
+      <div class='thing'><%= Stats.view_duration.round(0).to_s%>ms(<%= Stats.view_duration_percent.round(0)%>%) </div>
+    </div>
+    <div class='box'>
+      <div class='title'>Partials</div>
+      <div class='thing'><%= partial_count %></div>
+    </div>
+    <div class='box' style='border-right: none; float: left'>
+      <div class='button-success' id='more'>More</div>
+    </div>
+  </div>
+  <div style='display:none' id='partials'>
+    <div class='box' style="font-size: 10px !important; color: rgb(97, 105, 112);background: rgb(245, 245, 245);    padding: 5 18px;text-align: left;border-radius: 3px;border: 2px solid rgb(227, 227, 227);">
+    <div class='title'>Partial List</div>
+    <div class='thing'><%= partial_list %></div>
+  </div>
+  </div>
+
+</div>
+<script src='__DevPanel/assets/jquery.js'></script>
+<script>
+  h = document.getElementById('main').clientHeight
+  parent.resizeDevPanel(h)
+  $('#more').click(function() {
+    $('#partials').toggle()
+    h = null
+
+    if($('#partials').is(":visible"))
+      h = $('#main').parent().parent().height()
+    else
+      h = $('#main').height()
+    console.log(h)
+    parent.resizeDevPanel(h)
+  })
+</script>
