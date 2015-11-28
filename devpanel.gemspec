@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.add_development_dependency "rspec"
   s.name        = 'dev_panel'
-  s.version     = '0.3'
-  s.date        = '2013-08-29'
+  s.version     = '1'
+  s.date        = '2015-11-27'
   s.summary     = "DevPanel, a gem for performance stats and debugging information"
-  s.description = "A panel that appears in the browser to provide stats on page load times and other debugging information for Rails 3"
+  s.description = "A panel that appears in the browser to provide stats on page load times and other debugging information for Rails 3 & 4"
   s.authors     = ["Matthew Stopa"]
   s.email       = 'matthew.p.stopa@gmail.com'
   s.files       = Dir['lib/**/*.rb'] + ["lib/dev_panel.rb"]

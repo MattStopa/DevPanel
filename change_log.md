@@ -2,6 +2,12 @@
 
 ### 1.0
 
+- Use iFrames for better separation between app and plugin.
+- Redesign to only be at the top of the page.
+- Allow for a more esthetic look
+
+### 0.3.something
+
 - Add ability to tag a time trial so you can have multiple trials and figure out which is which.
 
 ### 0.3

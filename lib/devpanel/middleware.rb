@@ -32,10 +32,6 @@ module DevPanel
     end
 
     def dev_panel_output
-      junk.html_safe
-    end
-
-    def junk
       template = ERB.new File.new("#{File.dirname(__FILE__)}/views/header.html.erb").read, nil, "%"
       os = OpenStruct.new(
         controller: stats(:controller),
@@ -52,7 +48,7 @@ module DevPanel
         partial_paths: Stats.data[:partial_paths] || [],
         params: stats(:params)
         )
-      template.result(os.instance_eval { binding })
+      template.result(os.instance_eval { binding }).html_safe
     end
 
     def heat_color

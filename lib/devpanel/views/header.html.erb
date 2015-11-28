@@ -1,7 +1,10 @@
 <style>
-  body { background-color: #fff; font-family: 'Montserrat', sans-serif; margin: 0px; text-shadow: rgba(255, 255, 255, 0.498039) 0px 1px 0px;}
-  a {    color: #337ab7;}
-  .badge { color: #337ab7;
+  body {
+    background-color: #fff; font-family: 'Montserrat', sans-serif; margin: 0px; text-shadow: rgba(255, 255, 255, 0.498039) 0px 1px 0px;
+  }
+  a { color: #337ab7;}
+  .badge {
+    color: #337ab7;
     background-color: #5E5E5E;
     color: #fff;
     padding: 4px 10px;
@@ -11,17 +14,22 @@
     border-radius: 5px;
     text-shadow: none;    border-bottom-right-radius: 0px;
     border-top-right-radius: 0px; text-decoration: none;
-      width: 348px;
-    overflow-x: scroll;}
-  .logo { background-color: #fff; color: rgb(68, 68, 68); float: left;
-    height: 50px;
+    width: 348px;
+    overflow-x: auto;}
+  .logo {
+    background-color: #fff;
+    color: rgb(68, 68, 68);
     padding-right: 23px;
-    font-size: 33px;
+    float: left;
+    height: 18px;
+    font-size: 15px;
+    width: 100%;
+    text-align: center;
   }
   .box { width: initial; margin-left: 14px; margin-right: 14px; float:left; margin: 5 0 5 0; padding-left: 15px; padding-right: 15px;
     border-right: #D8D8D8 2px solid; }
   .main-box { font-size: 10px !important; color: rgb(97, 105, 112);background: rgb(245, 245, 245);    padding: 5 18px;text-align: left;border-radius: 3px;border: 2px solid rgb(227, 227, 227); float: left; text-align: left; width: 100%; }
-  .container { margin: auto; max-width: 850px; height: 50px; color: #B78080;}
+  .container { margin: auto; max-width: 854px; height: 50px; color: #B78080;}
   .thing { text-align: center; }
   .title { font-size: 8px; float: left; margin: auto; width: 100%; color: rgba(181, 181, 181, 0.870588); text-align: center }
   .button-success { color: #fff; background-color: #5cb85c; border-color: #4cae4c; padding: 6px 12px;
@@ -29,14 +37,23 @@
     font-size: 15px;
     font-weight: 100;
     line-height: 1.42857143; float: left;}
-  .badge-right { float: left; background-color: #000; color: #fff; float: left;background-color: #000;color: #fff;padding: 5px;    background-color: #D9634D;padding: 3px 6px;float: left;margin-top: 3px; line-height: 14px;}
-
+  .badge-right {
+    float: left; background-color: #000; color: #fff; float: left;background-color: #000;color: #fff;padding: 5px;    background-color: #D9634D;padding: 3px 6px;float: left;margin-top: 3px; line-height: 14px;    width: 14px;
+    text-align: center;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;}
+  .params {
+    color: #616970;
+    background-color: #ebfdd5;
+    border-color: #c0d3a9;
+    font-size: 12px !important;
+  }
 </style>
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 <div class='container' id='main'>
   <div>
     <div class='box'>
-     <div class='logo' style='float: left; height: 18px; font-size: 15px; width: 100%; text-align: center'>
+     <div class='logo'>
         DevPanel
       </div>
       <div class='thing' style='font-size: 14px; margin-top: 10px float: left width: 100%; text-align: center'>
@@ -66,15 +83,15 @@
     <div class='box' style='border-right: none; float: left'>
       <a href='#'><div class='button-success' id='more'>More</div></a>
       <a href='#'><div class='button-success' id='hide' style='margin-left: 7px'>Hide</div></a>
+      <a target='_blank' href='http://github.com/MattStopa/DevPanel'>
+        <img style=' width: 28px; margin-left: 6px; margin-top: 2px;' src='__DevPanel/assets/github.png'/>
+      </a>
     </div>
   </div>
   <div style='display:none; clear: both' id='secondary'>
     <div style='width: 100%'>
       <div style='width: 100%; float: left; '>
-        <div class='box main-box' style='color: #616970;
-    background-color: #ebfdd5;
-    border-color: #c0d3a9;
-    font-size: 12px !important;'>
+        <div class='box main-box params'>
         <div style='float: left'>Params:</div>
         <div style='float: left;'>
           <%= params %>
@@ -87,7 +104,6 @@
       <div class='title'>Partial List</div>
       <div>
         <% partial_list.each_pair do |k,v| %>
-
           <a class='badge' target='_blank' href="<%= "/__DevPanel/file#{partial_paths[k]}" %>">
             <%= k %>
           </a>

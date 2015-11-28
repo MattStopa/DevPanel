@@ -18,6 +18,7 @@ module DevPanel
           iframe.setAttribute('src', '__DevPanel/main')
           iframe.setAttribute('id', 'devPanel')
           iframe.setAttribute('style', 'width: 100%; border: none;')
+          iframe.setAttribute('height', 50)
           body.insertBefore(iframe ,body.children[0])
         }
 

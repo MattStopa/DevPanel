@@ -11,7 +11,7 @@ module DevPanel
     initializer "dev_panel.configure_rails_initialization" do
       Rails.application.middleware.use DevPanel::Middleware
 
-      ActiveSupport::Notifications.subscribe(//) do |*args|
+      ActiveSupport::Notifications.subscribe(/action/) do |*args|
         event = ActiveSupport::Notifications::Event.new(*args)
       end
 
