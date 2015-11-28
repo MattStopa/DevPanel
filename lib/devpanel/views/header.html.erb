@@ -1,5 +1,18 @@
 <style>
   body { background-color: #fff; font-family: 'Montserrat', sans-serif; margin: 0px; text-shadow: rgba(255, 255, 255, 0.498039) 0px 1px 0px;}
+  a {    color: #337ab7;}
+  .badge { color: #337ab7;
+    background-color: #5E5E5E;
+    color: #fff;
+    padding: 4px 10px;
+    float: left;
+    margin-top: 3px;
+    font-family: monospace;
+    border-radius: 5px;
+    text-shadow: none;    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px; text-decoration: none;
+      width: 348px;
+    overflow-x: scroll;}
   .logo { background-color: #fff; color: rgb(68, 68, 68); float: left;
     height: 50px;
     padding-right: 23px;
@@ -7,15 +20,16 @@
   }
   .box { width: initial; margin-left: 14px; margin-right: 14px; float:left; margin: 5 0 5 0; padding-left: 15px; padding-right: 15px;
     border-right: #D8D8D8 2px solid; }
-  .container { margin: auto; max-width: 800px; height: 50px; color: #B78080;}
+  .main-box { font-size: 10px !important; color: rgb(97, 105, 112);background: rgb(245, 245, 245);    padding: 5 18px;text-align: left;border-radius: 3px;border: 2px solid rgb(227, 227, 227); float: left; text-align: left; width: 100%; }
+  .container { margin: auto; max-width: 850px; height: 50px; color: #B78080;}
   .thing { text-align: center; }
   .title { font-size: 8px; float: left; margin: auto; width: 100%; color: rgba(181, 181, 181, 0.870588); text-align: center }
   .button-success { color: #fff; background-color: #5cb85c; border-color: #4cae4c; padding: 6px 12px;
     border-radius: 4px;
     font-size: 15px;
     font-weight: 100;
-    line-height: 1.42857143;}
-
+    line-height: 1.42857143; float: left;}
+  .badge-right { float: left; background-color: #000; color: #fff; float: left;background-color: #000;color: #fff;padding: 5px;    background-color: #D9634D;padding: 3px 6px;float: left;margin-top: 3px; line-height: 14px;}
 
 </style>
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
@@ -50,13 +64,47 @@
       <div class='thing'><%= partial_count %></div>
     </div>
     <div class='box' style='border-right: none; float: left'>
-      <div class='button-success' id='more'>More</div>
+      <a href='#'><div class='button-success' id='more'>More</div></a>
+      <a href='#'><div class='button-success' id='hide' style='margin-left: 7px'>Hide</div></a>
     </div>
   </div>
-  <div style='display:none' id='partials'>
-    <div class='box' style="font-size: 10px !important; color: rgb(97, 105, 112);background: rgb(245, 245, 245);    padding: 5 18px;text-align: left;border-radius: 3px;border: 2px solid rgb(227, 227, 227);">
-    <div class='title'>Partial List</div>
-    <div class='thing'><%= partial_list %></div>
+  <div style='display:none; clear: both' id='secondary'>
+    <div style='width: 100%'>
+      <div style='width: 100%; float: left; '>
+        <div class='box main-box' style='color: #616970;
+    background-color: #ebfdd5;
+    border-color: #c0d3a9;
+    font-size: 12px !important;'>
+        <div style='float: left'>Params:</div>
+        <div style='float: left;'>
+          <%= params %>
+        </div>
+      </div>
+    </div>
+
+    <div style='clear: both; width: 47%; float: left; margin-right: 6%'>
+      <div class='box main-box'>
+      <div class='title'>Partial List</div>
+      <div>
+        <% partial_list.each_pair do |k,v| %>
+
+          <a class='badge' target='_blank' href="<%= "/__DevPanel/file#{partial_paths[k]}" %>">
+            <%= k %>
+          </a>
+          <div class='badge-right'>
+            <%= Stats.data[:partials][k] %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+    <div style='width: 47%; float: left'>
+      <div class='box main-box'>
+      <div class='title'>Log</div>
+      <div>
+        <%= log %>
+      </div>
+    </div>
   </div>
   </div>
 
@@ -65,15 +113,17 @@
 <script>
   h = document.getElementById('main').clientHeight
   parent.resizeDevPanel(h)
+  $('#hide').click(function() {
+    parent.resizeDevPanel(0)
+  })
   $('#more').click(function() {
-    $('#partials').toggle()
+    $('#secondary').toggle()
     h = null
 
-    if($('#partials').is(":visible"))
+    if($('#secondary').is(":visible"))
       h = $('#main').parent().parent().height()
     else
       h = $('#main').height()
-    console.log(h)
     parent.resizeDevPanel(h)
   })
 </script>

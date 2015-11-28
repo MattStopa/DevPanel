@@ -31,8 +31,10 @@ module DevPanel
         event = ActiveSupport::Notifications::Event.new(*args)
         partial_name = event.payload[:identifier].split("app").last
         Stats.data[:partials] ||= {}
+        Stats.data[:partial_paths] ||= {}
         Stats.data[:partials][partial_name] ||= 0
         Stats.data[:partials][partial_name] += 1
+        Stats.data[:partial_paths][partial_name] = event.payload[:identifier]
       end
     end
   end

@@ -17,7 +17,7 @@ module DevPanel
           iframe = document.createElement('iframe')
           iframe.setAttribute('src', '__DevPanel/main')
           iframe.setAttribute('id', 'devPanel')
-          iframe.setAttribute('style', 'width: 100%')
+          iframe.setAttribute('style', 'width: 100%; border: none;')
           body.insertBefore(iframe ,body.children[0])
         }
 

@@ -17,8 +17,15 @@ module DevPanel
         query = params["query"]
         [200, { "Content-Type" => "text/plain; charset=utf-8" }, ["#{CGI::escapeHTML(eval(query).to_s)}"]]
       elsif request_uri =~ /__DevPanel\/assets/
-        data = File.read(__dir__ + '/assets/' + request_uri.split('/__DevPanel/assets/').last)
+        data = File.read(File.dirname(__FILE__) + '/assets/' + request_uri.split('/__DevPanel/assets/').last)
         [200, { "Content-Type" => "text/plain; charset=utf-8" }, [data]]
+      elsif request_uri =~ /__DevPanel\/file/
+        filename = request_uri.split('/__DevPanel/file/').last
+        data = File.read('/' + filename)
+        template = ERB.new File.new("#{File.dirname(__FILE__)}/views/file_viewer.html.erb").read, nil, "%"
+        os = OpenStruct.new(data: stats(:data), filename: filename)
+        result = template.result(os.instance_eval { binding })
+        [200, { "Content-Type" => "text/html; charset=utf-8" }, [result]]
       else
         @app.call(env)
       end
@@ -29,20 +36,22 @@ module DevPanel
     end
 
     def junk
-      template = ERB.new File.new("#{__dir__}/views/header.html.erb").read, nil, "%"
+      template = ERB.new File.new("#{File.dirname(__FILE__)}/views/header.html.erb").read, nil, "%"
       os = OpenStruct.new(
-                          controller: stats(:controller),
-                          action: stats(:action),
-                          status: stats(:status),
-                          partial_count: partial_count,
-                          total_duration: Stats.total_duration.round(0).to_s,
-                          controller_duration: Stats.controller_duration.round(0).to_s,
-                          controller_percent: Stats.controller_duration.round(0).to_s,
-                          view_duration: Stats.view_duration.to_s,
-                          view_duration_percent: Stats.view_duration_percent,
-                          log: Stats.data[:log],
-                          partial_list: partial_list
-                        )
+        controller: stats(:controller),
+        action: stats(:action),
+        status: stats(:status),
+        partial_count: partial_count,
+        total_duration: Stats.total_duration.round(0).to_s,
+        controller_duration: Stats.controller_duration.round(0).to_s,
+        controller_percent: Stats.controller_duration_percent.to_s,
+        view_duration: Stats.view_duration.to_s,
+        view_duration_percent: Stats.view_duration_percent,
+        log: Stats.data[:log],
+        partial_list: Hash[Stats.data[:partials].to_a.reverse],
+        partial_paths: Stats.data[:partial_paths] || [],
+        params: stats(:params)
+        )
       template.result(os.instance_eval { binding })
     end
 
@@ -65,12 +74,6 @@ module DevPanel
 
     def partial_count
       Stats.data[:partial_count] || 0
-    end
-
-    def partial_list
-      str = ""
-      Stats.data[:partials].each_pair {|k,v| str << "#{k}: #{Stats.data[:partials][k]}<br>" } if Stats.data[:partials].present?
-      str
     end
   end
 end

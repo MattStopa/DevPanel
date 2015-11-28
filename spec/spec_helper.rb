@@ -1,7 +1,7 @@
 require 'pry'
 require 'bundler/setup'
 
-CurrentDir = Dir.pwd
+CurrentDir = File.dirname(__FILE__)
 
 Bundler.setup
 
